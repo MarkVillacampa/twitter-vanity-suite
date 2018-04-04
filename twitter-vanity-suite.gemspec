@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
   s.license = "AGPL"
   s.executables = executables
 
-  s.add_dependency "twitter", "~> 5.4"
+  s.add_dependency "twitter", "~> 6.0"
 end

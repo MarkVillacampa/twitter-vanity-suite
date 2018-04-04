@@ -13,7 +13,7 @@ end
 
 usage! if ARGV.empty?
 
-gem "twitter", "~> 5.4"
+gem "twitter", "~> 6.0"
 require "twitter"
 require "yaml"
 
