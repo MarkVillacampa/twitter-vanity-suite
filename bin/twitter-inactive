@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 require_relative "../lib-internal/common"
 
-# $client.friend_ids("markvillacampa").to_a
-# $client.friend_ids("markvillacampa").to_a
-#
 ARGF.readlines.map(&:chomp).first(5).each do |user|
   tweets = $client.user_timeline(user, count: 200, exclude_replies: true, include_rts: true)
   days = tweets.first.created_at.to_date - tweets.last.created_at.to_date

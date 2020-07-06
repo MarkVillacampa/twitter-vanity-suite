@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# Usage: twitter-console
+
+# # hack so we don't get dumped into usage:
+ARGV << "lol"
+
+require_relative "../lib-internal/common"
+
+apple_list_members = $client.list_members(155384410)
+follower_ids = $client.friend_ids.to_a
+apple_followers = apple_list_members.to_a.keep_if { |m| !follower_ids.include?(m.id) }
+puts apple_followers.map {|a| a.url.to_str }

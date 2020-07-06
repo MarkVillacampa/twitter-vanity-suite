@@ -1,0 +1,149 @@
+#!/usr/bin/env ruby
+# Usage: twitter-console
+
+# # hack so we don't get dumped into usage:
+ARGV << "lol"
+
+require_relative "../lib-internal/common"
+
+# users.select { |u| u.description.include?("Apple")}.count
+already_watched = %W{
+https://twitter.com/_Caro_N
+https://twitter.com/_JamesDale
+https://twitter.com/_Jordan
+https://twitter.com/abargh
+https://twitter.com/AgentAkki
+https://twitter.com/aileenlee
+https://twitter.com/andoma
+https://twitter.com/AndrewYNg
+https://twitter.com/annimaniac
+https://twitter.com/aoverholtzer
+https://twitter.com/arachleff
+https://twitter.com/arampell
+https://twitter.com/b3ll
+https://twitter.com/bella_bongiorno
+https://twitter.com/benoitmarchant
+https://twitter.com/bob_burrough
+https://twitter.com/bradleymackey
+https://twitter.com/Brucey125
+https://twitter.com/bznotes
+https://twitter.com/cdibona
+https://twitter.com/chamath
+https://twitter.com/chandlerc1024
+https://twitter.com/choco_bit
+https://twitter.com/chriseppstein
+https://twitter.com/ChristianSelig
+https://twitter.com/dalexsoto
+https://twitter.com/DanielStormApps
+https://twitter.com/Darkolorin
+https://twitter.com/DerekjAndersen
+https://twitter.com/DexAlec
+https://twitter.com/dnaltews
+https://twitter.com/DrMacsBug
+https://twitter.com/drunknbass
+https://twitter.com/echristo
+https://twitter.com/elies
+https://twitter.com/elwatto
+https://twitter.com/ericsyuan
+https://twitter.com/EveryApplePro
+https://twitter.com/FioraAeterna
+https://twitter.com/generativist
+https://twitter.com/geneteare
+https://twitter.com/gerardodm
+https://twitter.com/gmurphy
+https://twitter.com/illustriousalex
+https://twitter.com/imranchaudhri
+https://twitter.com/iNeal
+https://twitter.com/iOS_App_Dev
+https://twitter.com/iOSReleases
+https://twitter.com/JacopoMangia
+https://twitter.com/jamesdcameron
+https://twitter.com/jamesdempsey
+https://twitter.com/JaninaKutyn
+https://twitter.com/jeff
+https://twitter.com/johndmcmaster
+https://twitter.com/joshparnham
+https://twitter.com/JoshSteinVC
+https://twitter.com/JPEGuin
+https://twitter.com/jrho
+https://twitter.com/jvgraz
+https://twitter.com/k0kubun
+https://twitter.com/kevin_reutter
+https://twitter.com/kohsukekawa
+https://twitter.com/LeahLundqvist
+https://twitter.com/levie
+https://twitter.com/LucasDerraugh
+https://twitter.com/ManuKumar
+https://twitter.com/mikesego
+https://twitter.com/mmccue
+https://twitter.com/MosesBuckwalter
+https://twitter.com/Mpegg
+https://twitter.com/mpweiher
+https://twitter.com/NachoSoto
+https://twitter.com/nehanarkhede
+https://twitter.com/neil_jhaveri
+https://twitter.com/nfgrilo
+https://twitter.com/NightTigerFTW
+https://twitter.com/objective_see
+https://twitter.com/OkemoZurs
+https://twitter.com/old_sound
+https://twitter.com/olivercameron
+https://twitter.com/patrickwardle
+https://twitter.com/paul_irish
+https://twitter.com/pedraum
+https://twitter.com/pilky
+https://twitter.com/qcoding
+https://twitter.com/scottjenson
+https://twitter.com/scottknaster
+https://twitter.com/sergigracia
+https://twitter.com/shubhie
+https://twitter.com/Skyweb07
+https://twitter.com/socialcapital
+https://twitter.com/sundeep
+https://twitter.com/thauburger
+https://twitter.com/twannl
+https://twitter.com/uribeetxebarria
+https://twitter.com/0x0luke
+https://twitter.com/agarwal
+https://twitter.com/anat_gilboa
+https://twitter.com/andy_matuschak
+https://twitter.com/AppleTerminal
+https://twitter.com/calstephens98
+https://twitter.com/cwillycs
+https://twitter.com/danielgross
+https://twitter.com/eaala
+https://twitter.com/jacegu
+https://twitter.com/jlacort
+https://twitter.com/joshavant
+https://twitter.com/krakendev
+https://twitter.com/LegNeato
+https://twitter.com/lobau
+https://twitter.com/mathcolorstrees
+https://twitter.com/mayli
+https://twitter.com/mronge
+https://twitter.com/nrrrdcore
+https://twitter.com/pedroaznar
+https://twitter.com/rjonesy
+https://twitter.com/sf_avi
+https://twitter.com/shaft
+https://twitter.com/tconrad
+https://twitter.com/willing
+https://twitter.com/XcodeReleases
+https://twitter.com/marcpalmerdev
+https://twitter.com/sophiebits
+https://twitter.com/rickwierenga
+https://twitter.com/RubenApps
+https://twitter.com/radazzouz
+}
+
+apple_list_member_urls = $client.list_members(155384410,count: 5000).map{|u|u.url.to_str}
+bio_terms = [" fruit", "", "🍎", "🍏", "at apple", "@ apple", "xcode", "@apple", "webkit"]
+location_terms = ["cupertino", "san jose", "palo alto", "santa clara"]
+
+# users = $client.users(File.read("following.txt").split("\n").map(&:chomp))
+users = $client.users($client.friend_ids.to_a)
+potential_apple_employees = users
+  .select { |u| bio_terms.any?{ |t| u.description.downcase.include?(t) } || location_terms.any?{ |l| u.location.downcase.include?(l) } }
+  .map { |u| u.url.to_str }
+  .keep_if{|u| !apple_list_member_urls.include?(u) && !already_watched.include?(u) }
+puts potential_apple_employees

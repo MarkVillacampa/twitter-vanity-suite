@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 # Usage: twitter-console
 
-# hack so we don't get dumped into usage:
+# # hack so we don't get dumped into usage:
 ARGV << "lol"
 
 require_relative "../lib-internal/common"
+
+# users = $client.users(ARGF.readlines.map(&:chomp))
 
 require "pry"
 pry

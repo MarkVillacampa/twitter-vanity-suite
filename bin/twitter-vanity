@@ -12,6 +12,6 @@ def show_ids_sorted_by_followers(ids)
   end
 end
 
-username = ARGV.first
-follower_ids = $client.follower_ids(username).to_a
-show_ids_sorted_by_followers(follower_ids)
+# username = ARGV.first
+# follower_ids = $client.friend_ids(username).to_a
+show_ids_sorted_by_followers(ARGF.readlines.map(&:chomp))
